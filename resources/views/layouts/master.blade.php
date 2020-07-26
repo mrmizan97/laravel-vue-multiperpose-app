@@ -27,25 +27,20 @@ scratch. This page gets rid of all links and provides the needed markup only.
       <li class="nav-item">
         <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
       </li>
-      <li class="nav-item d-none d-sm-inline-block">
-        <a href="index3.html" class="nav-link">Home</a>
-      </li>
-      <li class="nav-item d-none d-sm-inline-block">
-        <a href="#" class="nav-link">Contact</a>
-      </li>
+
     </ul>
 
     <!-- SEARCH FORM -->
-    <form class="form-inline ml-3">
+  
       <div class="input-group input-group-sm">
-        <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
+        <input v-model="search" @keyup="searchit" class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
         <div class="input-group-append">
-          <button class="btn btn-navbar" type="submit">
+          <button class="btn btn-navbar" @click="searchit">
             <i class="fas fa-search"></i>
           </button>
         </div>
       </div>
-    </form>
+
 
 
   </nav>
@@ -63,14 +58,20 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- Sidebar -->
     <div class="sidebar">
       <!-- Sidebar user panel (optional) -->
-      <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-        <div class="image">
-          <img src="dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
-        </div>
-        <div class="info">
-          <a href="#" class="d-block"> {{ Auth::user()->name }}</a>
-        </div>
-      </div>
+
+        <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+            <div class="image">
+              <img src="{{ url('img/profile/'.Auth::user()->photo) }}" class="img-circle elevation-2" alt="User Image">
+            </div>
+            <div class="info">
+              <a href="#" class="d-block">
+                   {{ Auth::user()->name }}  <p>Role : {{ Auth::user()->type }}</p>
+
+                </a>
+
+            </div>
+          </div>
+
 
       <!-- Sidebar Menu -->
       <nav class="mt-2">
@@ -86,8 +87,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
               </p>
             </router-link>
           </li>
-
-          <li class="nav-item nas-treeview">
+        @can('isAdmin', User::class)
+        <li class="nav-item nas-treeview">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-cogs green"></i>
               <p>
@@ -105,6 +106,18 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
             </ul>
           </li>
+        @endcan
+          @can('isAdmin', User::class)
+          <li class="nav-item">
+            <router-link to="/developer" class="nav-link">
+              <i class="nav-icon fas fa-cogs "></i>
+              <p>
+                Developer
+              </p>
+            </router-link>
+          </li>
+          @endcan
+
           <li class="nav-item">
             <router-link to="/profile" class="nav-link">
               <i class="nav-icon fas fa-user orange"></i>
@@ -141,7 +154,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <div class="content">
       <div class="container-fluid">
 
-        
+
 
 <!-- for  router view -->
 <router-view></router-view>
@@ -170,10 +183,16 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
 <!-- REQUIRED SCRIPTS -->
 
+@auth
+<script>
+    window.user = @json(auth()->user())
+
+</script>
+@endauth
 <!-- jQuery -->
 <script src="/js/app.js"></script>
 <!-- DataTables -->
-<script src="{{ asset('private/plugins/datatables/jquery.dataTables.min.js') }}"></script>
+{{-- <script src="{{ asset('private/plugins/datatables/jquery.dataTables.min.js') }}"></script>
 <script src="{{ asset('private/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
 <script src="{{ asset('private/plugins/datatables-responsive/js/dataTables.responsive.min.js') }}"></script>
 <script src="{{ asset('private/plugins/datatables-responsive/js/responsive.bootstrap4.min.js') }}"></script>
@@ -199,6 +218,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
         "responsive": true,
       });
     });
-  </script>
+  </script> --}}
 </body>
 </html>

@@ -6,7 +6,7 @@
                     <div class="card-header">Dashboard Component</div>
 
                     <div class="card-body">
-                        I'm an Dashboard component.
+                       Welcome to Dashboard component!
                     </div>
                 </div>
             </div>
